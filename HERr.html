@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEX to RGB</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s;
+            background-color: rgb(153, 33, 255);
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input {
+            font-size: 24px;
+            padding: 10px;
+            width: 150px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .result {
+            font-size: 24px;
+            font-family: monospace;
+            min-height: 30px;
+        }
+        .error {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="hexInput" placeholder="#9921ff" maxlength="7">
+        <div class="result" id="rgbOutput">rgb(153, 33, 255)</div>
+    </div>
+
+    <script>
+        const hexInput = document.getElementById('hexInput');
+        const rgbOutput = document.getElementById('rgbOutput');
+        const body = document.body;
+
+        hexInput.addEventListener('input', function() {
+            const hex = this.value;
+            
+            if (hex.length === 0) {
+                rgbOutput.textContent = '';
+                body.style.backgroundColor = 'rgb(153, 33, 255)';
+                rgbOutput.classList.remove('error');
+                return;
+            }
+            
+            if (hex.length === 7 && hex.startsWith('#')) {
+                const rgb = hexToRgb(hex);
+                if (rgb) {
+                    rgbOutput.textContent = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+                    rgbOutput.classList.remove('error');
+                    body.style.backgroundColor = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+                } else {
+                    showError("Ошибка!");
+                }
+            } else if (hex.length >= 7) {
+                showError("Ошибка!");
+            }
+        });
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+        
+        function showError(message) {
+            rgbOutput.textContent = message;
+            rgbOutput.classList.add('error');
+            body.style.backgroundColor = '#ff0000';
+        }
+    </script>
+</body>
+</html>
