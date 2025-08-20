@@ -25,5 +25,13 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2"
+  },
+
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack serve --open",
+    "test": "jest --coverage"
   }
 }
+
+
